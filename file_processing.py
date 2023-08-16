@@ -27,16 +27,18 @@ def load_and_index_files(repo_path):
         glob_pattern = f'**/*.{ext}'
         try:
             loader = None
+            print(f"Loading {ext} files")
             if ext == 'ipynb':
                 loader = NotebookLoader(str(repo_path), include_outputs=True, max_output_length=20, remove_newline=True)
             else:
                 loader = DirectoryLoader(repo_path, glob=glob_pattern)
-
+            print(f"Files loaded")
             loaded_documents = loader.load() if callable(loader.load) else []
             if loaded_documents:
                 file_type_counts[ext] = len(loaded_documents)
                 for doc in loaded_documents:
                     file_path = doc.metadata['source']
+                    print(f"Reading file {file_path}")
                     relative_path = os.path.relpath(file_path, repo_path)
                     file_id = str(uuid.uuid4())
                     doc.metadata['source'] = relative_path

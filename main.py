@@ -18,7 +18,9 @@ def main():
     print("Cloning the repository...")
     with tempfile.TemporaryDirectory() as local_path:
         if clone_github_repo(github_url, local_path):
+            print("Repository cloned, indexing...")
             index, documents, file_type_counts, filenames = load_and_index_files(local_path)
+            print("Indexing complete")
             if index is None:
                 print("No documents were found to index. Exiting.")
                 exit()
@@ -36,7 +38,7 @@ def main():
                 a. Purpose/features - describe.
                 b. Functions/code - provide details/samples.
                 c. Setup/usage - give instructions.
-            4. Unsure? Say "I am not sure".
+            4. Unsure? Say "I am not sure". Do not lie or make up an answer.
 
             Answer:
             """
@@ -67,3 +69,4 @@ def main():
 
         else:
             print("Failed to clone the repository.")
+main()
